@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1062980124378",
+    "project_id": "lunchxv1",
+    "storage_bucket": "lunchxv1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062980124378:android:912ba4e1b4dbdf6827efe3",
+        "android_client_info": {
+          "package_name": "com.example.lunchx_canteen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-E_XA47hz4blZXyWvoKUxx_fSPXrqKgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
