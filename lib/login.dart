@@ -59,9 +59,8 @@ class _LoginState extends State<Login> {
                         },
                         child: Icon(
                           _obscurePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Colors.grey,
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                         ),
                       ),
                     ),
@@ -157,3 +156,4 @@ class _LoginState extends State<Login> {
     );
   }
 }
+// do not change code

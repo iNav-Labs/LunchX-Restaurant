@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lunchx_canteen/Body%20Section/body.dart';
 import 'package:lunchx_canteen/food_dashboard.dart';
+import 'package:lunchx_canteen/login.dart';
 import 'package:lunchx_canteen/order_history.dart';
-import 'menu_manager.dart';
+import 'package:lunchx_canteen/menu_manager.dart';
 
 class YourDrawer extends StatefulWidget {
   final Function(bool) onShopStatusChanged;
-  final bool isShopOpen; // Add this variable to store the shop status
+  final bool isShopOpen;
 
   const YourDrawer({
     super.key,
@@ -36,18 +37,17 @@ class _YourDrawerState extends State<YourDrawer> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            value: widget.isShopOpen, // Use the provided shop status
+            value: widget.isShopOpen,
             onChanged: (value) {
-              widget.onShopStatusChanged(value); // Notify the parent widget
+              widget.onShopStatusChanged(value);
             },
             contentPadding: const EdgeInsets.all(40),
             activeTrackColor: Colors.green[500],
             inactiveTrackColor: Colors.red[800],
             inactiveThumbColor: Colors.white,
           ),
-          // Other drawer items...
           _buildDrawerItem(context, 'Menu Manage', () {
-            Navigator.pop(context); // Close the drawer
+            Navigator.pop(context);
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -55,18 +55,28 @@ class _YourDrawerState extends State<YourDrawer> {
             );
           }),
           _buildDrawerItem(context, 'Order History', () {
-            Navigator.pop(context); // Close the drawer
+            Navigator.pop(context);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => OrderHistoryScreen()),
             );
           }),
           _buildDrawerItem(context, 'Analytics', () {
-            Navigator.pop(context); // Close the drawer
+            Navigator.pop(context);
             // Handle analytics navigation
           }),
+          _buildDrawerItem(context, 'Logout', () {
+            // Perform logout
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const Login()), // Navigate to login screen
+              (route) => false, // Remove all routes until login screen
+            );
+          }),
           Container(
-            margin: const EdgeInsets.only(top: 350.0),
+            margin: const EdgeInsets.only(top: 300.0),
             child: Image.asset(
               'assets/logo2.png',
               height: 50.0,
@@ -197,10 +207,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
       endDrawer: YourDrawer(
-        isShopOpen: isShopOpen, // Pass the shop status to the drawer
+        isShopOpen: isShopOpen,
         onShopStatusChanged: (status) {
           setState(() {
-            isShopOpen = status; // Update the shop status in the screen widget
+            isShopOpen = status;
           });
         },
       ),
