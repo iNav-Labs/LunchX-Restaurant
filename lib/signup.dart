@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lunchx_canteen/Details/canteen_registration.dart';
 import 'package:lunchx_canteen/login.dart';
 
@@ -16,6 +17,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool _obscurePassword = true;
 
   @override
@@ -144,7 +146,8 @@ class _SignUpState extends State<SignUp> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => CanteenRegistration()),
+                    builder: (context) => CanteenRegistration(),
+                  ),
                 );
               },
               child: const Text('OK'),

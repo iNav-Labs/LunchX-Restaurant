@@ -33,26 +33,23 @@ class CanteenRegistration extends StatelessWidget {
 
       // Check if email is already used
       final emailQuerySnapshot = await FirebaseFirestore.instance
-          .collection('canteens')
-          .where('email', isEqualTo: email)
+          .collection('LunchX')
+          .doc('canteens')
+          .collection('users')
+          .doc(email)
           .get();
 
-      if (emailQuerySnapshot.docs.isNotEmpty) {
+      if (emailQuerySnapshot.exists) {
         throw 'Email already exists';
       }
 
-      // Check if phone number is already used
-      final phoneQuerySnapshot = await FirebaseFirestore.instance
-          .collection('canteens')
-          .where('phoneNumber', isEqualTo: phoneNumber)
-          .get();
-
-      if (phoneQuerySnapshot.docs.isNotEmpty) {
-        throw 'Phone number already exists';
-      }
-
       // Add data to Firestore
-      await FirebaseFirestore.instance.collection('canteens').doc(email).set({
+      await FirebaseFirestore.instance
+          .collection('LunchX')
+          .doc('canteens')
+          .collection('users')
+          .doc(email)
+          .set({
         'name': _nameController.text,
         'canteenName': _canteenNameController.text,
         'email': email,
@@ -65,7 +62,8 @@ class CanteenRegistration extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Canteen Registration'),
-            content: const Text('Your canteen registration is successfully done.'),
+            content:
+                const Text('Your canteen registration is successfully done.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
