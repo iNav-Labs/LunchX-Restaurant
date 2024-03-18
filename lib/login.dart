@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(
-                'assets/image4.png',
+                'assets/food2.png',
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),

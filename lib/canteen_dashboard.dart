@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +23,36 @@ class YourDrawer extends StatefulWidget {
 }
 
 class _YourDrawerState extends State<YourDrawer> {
+  Widget _buildDrawerItem(
+      BuildContext context, String title, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 30,
+        padding: const EdgeInsets.symmetric(horizontal: 70.0, vertical: 10.0),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: Colors.black,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Text(
+            title,
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -46,7 +76,28 @@ class _YourDrawerState extends State<YourDrawer> {
             inactiveTrackColor: Colors.red[800],
             inactiveThumbColor: Colors.white,
           ),
-          _buildDrawerItem(context, 'Menu Manage', () {
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 50.0),
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.black,
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildPersonalDetails('Name', 'Mansi Vora'),
+                _buildPersonalDetails('Hostel', 'H.R.H (High Rise)'),
+                _buildPersonalDetails('Phone Number', '+91 9408393005'),
+              ],
+            ),
+          ),
+          _buildDrawerItem(context, 'Manage Menu', () {
             Navigator.pop(context);
             Navigator.push(
               context,
@@ -61,10 +112,6 @@ class _YourDrawerState extends State<YourDrawer> {
               MaterialPageRoute(builder: (context) => OrderHistoryScreen()),
             );
           }),
-          _buildDrawerItem(context, 'Analytics', () {
-            Navigator.pop(context);
-            // Handle analytics navigation
-          }),
           _buildDrawerItem(context, 'Logout', () {
             // Perform logout
             Navigator.pushAndRemoveUntil(
@@ -76,11 +123,11 @@ class _YourDrawerState extends State<YourDrawer> {
             );
           }),
           Container(
-            margin: const EdgeInsets.only(top: 300.0),
+            margin: const EdgeInsets.only(top: 200.0),
             child: Image.asset(
-              'assets/logo2.png',
+              'assets/logo2.png', // Adjust the path accordingly
               height: 50.0,
-              width: 50.0,
+              width: 40.0,
             ),
           ),
           const SizedBox(
@@ -95,11 +142,12 @@ class _YourDrawerState extends State<YourDrawer> {
             ),
             textAlign: TextAlign.center,
           ),
+          // "graby.go" text
           Text(
             '+91 9408393005',
             style: GoogleFonts.outfit(
               fontSize: 14,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: Colors.black,
             ),
             textAlign: TextAlign.center,
@@ -109,32 +157,30 @@ class _YourDrawerState extends State<YourDrawer> {
     );
   }
 
-  Widget _buildDrawerItem(
-      BuildContext context, String title, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 70.0, vertical: 10.0),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: Colors.black,
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(12.0),
+  Widget _buildPersonalDetails(String title, String value) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.outfit(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
-          child: Text(
-            title,
-            style: GoogleFonts.outfit(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          textAlign: TextAlign.center,
         ),
-      ),
+        const SizedBox(height: 5),
+        Text(
+          value,
+          style: GoogleFonts.outfit(
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 }

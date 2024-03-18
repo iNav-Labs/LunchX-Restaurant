@@ -64,8 +64,8 @@ class CanteenRegistration extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Data stored successfully.'),
+            title: const Text('Canteen Registration'),
+            content: const Text('Your canteen registration is successfully done.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {

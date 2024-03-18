@@ -58,9 +58,8 @@ class _SignUpState extends State<SignUp> {
                         },
                         child: Icon(
                           _obscurePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Colors.grey,
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                         ),
                       ),
                     ),
@@ -106,7 +105,7 @@ class _SignUpState extends State<SignUp> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(
-                'assets/image3.png',
+                'assets/food1.png',
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
@@ -136,7 +135,7 @@ class _SignUpState extends State<SignUp> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Sign Up Successful'),
+          title: const Text('Sign Up'),
           content: const Text('You have successfully signed up.'),
           actions: [
             TextButton(

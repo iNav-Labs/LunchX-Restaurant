@@ -23,7 +23,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
       'description':
           'Veggie Burger in Every Bite: Crunchy Garden-fresh Goodness with our Signature Veg Burger!',
       'price': 79,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': true,
     },
     {
@@ -31,7 +31,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
       'description':
           'Savor the Taste of our Juicy Cheese Burger: Made with 100% Pure Beef and Topped with Melted Cheese!',
       'price': 99,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': false,
     },
     {
@@ -39,7 +39,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
       'description':
           'Grilled Chicken Sandwich: Soft Bread, Grilled Chicken Breast, Fresh Lettuce, Tomatoes, and Mayo.',
       'price': 129,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': true,
     },
   ];
