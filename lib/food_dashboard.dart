@@ -13,7 +13,7 @@ class FoodDashboard extends StatelessWidget {
       'description':
           'Veggie Burger in Every Bite: Crunchy Garden-fresh Goodness with our Signature Veg Burger!',
       'price': 79,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': true,
     },
     {
@@ -21,7 +21,7 @@ class FoodDashboard extends StatelessWidget {
       'description':
           'Savor the Taste of our Juicy Cheese Burger: Made with 100% Pure Beef and Topped with Melted Cheese!',
       'price': 99,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': false,
     },
     {
@@ -29,7 +29,7 @@ class FoodDashboard extends StatelessWidget {
       'description':
           'Grilled Chicken Sandwich: Soft Bread, Grilled Chicken Breast, Fresh Lettuce, Tomatoes, and Mayo.',
       'price': 129,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': true,
     },
     {
@@ -37,7 +37,7 @@ class FoodDashboard extends StatelessWidget {
       'description':
           'Crispy Fried Fish and Thick-Cut Chips: Served with Tartar Sauce and Lemon Wedges.',
       'price': 189,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': false,
     },
     {
@@ -45,7 +45,7 @@ class FoodDashboard extends StatelessWidget {
       'description':
           'Fresh Veggie Pizza: Topped with Tomato Sauce, Mozzarella Cheese, Bell Peppers, Onions, and Mushrooms.',
       'price': 199,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': true,
     },
     {
@@ -53,7 +53,7 @@ class FoodDashboard extends StatelessWidget {
       'description':
           'Rich and Moist Chocolate Cake: Layers of Chocolate Sponge and Velvety Chocolate Icing.',
       'price': 89,
-      'image': 'assets/image5.png',
+      'image': 'assets/food3.png',
       'availibity': true,
     },
   ];
