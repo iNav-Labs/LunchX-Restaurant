@@ -132,9 +132,3 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 }
-
-void main() {
-  runApp(const MaterialApp(
-    home: AddItemScreen(),
-  ));
-}

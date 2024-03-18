@@ -76,7 +76,8 @@ class _LoginState extends State<Login> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SignUp()),
+                              builder: (context) => const SignUp(),
+                            ),
                           );
                         },
                         child: const Text(
@@ -123,8 +124,6 @@ class _LoginState extends State<Login> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      Navigator.of(context)
-          .pop(); // to restrict user for not going back to login screen
       // If login successful, navigate to dashboard
       Navigator.pushReplacement(
         context,
@@ -156,4 +155,3 @@ class _LoginState extends State<Login> {
     );
   }
 }
-// do not change code
