@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lunchx_canteen/Details/canteen_registration.dart';
 import 'package:lunchx_canteen/login.dart';
 
