@@ -1,20 +1,23 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart'; // Import this for TextInputFormatter
+import 'package:lunchx_canteen/menu_manager.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key});
+
   @override
-  // ignore: library_private_types_in_public_api
   _AddItemScreenState createState() => _AddItemScreenState();
 }
 
-// DO NOT WORKING ABHI FILE PICKER - FIX IT !!
-
 class _AddItemScreenState extends State<AddItemScreen> {
   File? _image; // Variable to store the selected image file
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
 
   // Function to open the image picker
   Future<void> _pickImage() async {
@@ -29,104 +32,138 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
-  // DO NOT WORKING ABHI FILE PICKER - FIX IT !!
+  // Function to validate if all fields are filled
+  bool _validateFields() {
+    if (_image == null ||
+        _nameController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        _priceController.text.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
+  // Function to show alert if fields are not filled
+  void _showAlertDialog(bool saved) {
+    String message = saved
+        ? 'Food item is saved!'
+        : 'Please fill all fields and upload an image.';
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(saved ? 'Success' : 'Alert'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              if (saved) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MenuManagerScreen()),
+                );
+              }
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Add Item'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text('Add Item'),
-        actions: const [
-          // You can add more actions here if needed
-        ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Your UI components for adding an item go here
-              // Your UI components for adding an item go here
-              const Text(
-                'Food Item Photo:',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              // File uploader goes here
-              GestureDetector(
-                onTap: _pickImage,
-                child: Container(
-                  height: 150.0,
-                  width: 150.0,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: _image == null
-                      ? const Center(
-                          child: Icon(Icons.camera_alt, size: 50.0),
-                        )
-                      : Image.file(_image!, fit: BoxFit.cover),
-                ),
-              ),
-              // File uploader goes here
-
-              const SizedBox(height: 20),
-
-              // Name Text Input
-              const Text(
-                'Name:',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              const TextField(
-                  // Add your text field properties here
-                  ),
-
-              const SizedBox(height: 20),
-
-              // Description Text Input
-              const Text(
-                'Description:',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              const TextField(
-                  // Add your text field properties here
-                  ),
-
-              const SizedBox(height: 20),
-
-              // Price Numeric Input
-              const Text(
-                'Price:',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              Container(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              'Food Item Photo:',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16.0),
+            GestureDetector(
+              onTap: _pickImage,
+              child: Container(
+                height: 150.0,
                 width: 150.0,
-                child: const TextField(
-                  keyboardType: TextInputType.number,
-                  // Add your text field properties here
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
+                child: _image == null
+                    ? const Center(
+                        child: Icon(Icons.camera_alt, size: 50.0),
+                      )
+                    : Image.file(_image!, fit: BoxFit.cover),
               ),
-
-              const SizedBox(height: 20.0),
-
-              // Save Button
-              ElevatedButton(
-                onPressed: () {
+            ),
+            const SizedBox(height: 20.0),
+            const Text(
+              'Name:',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                hintText: 'Enter name',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            const Text(
+              'Description:',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              controller: _descriptionController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                hintText: 'Enter description',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            const Text(
+              'Price:',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              controller: _priceController,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly // Allow only digits
+              ],
+              decoration: const InputDecoration(
+                hintText: 'Enter price',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: () {
+                if (_validateFields()) {
                   // Add functionality to handle saving the item
-                  // This is just a placeholder; you'll need to implement your logic
-                },
-                child: const Text('Save'),
-              ),
-            ],
-          ),
+                  _showAlertDialog(true);
+                } else {
+                  _showAlertDialog(false);
+                }
+              },
+              child: const Text('Save'),
+            ),
+          ],
         ),
       ),
     );

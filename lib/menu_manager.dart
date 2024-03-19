@@ -17,32 +17,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
   TextEditingController subHeadingController = TextEditingController();
   bool availabilityStatus = true;
 
-  List<Map<String, dynamic>> menuItems = [
-    {
-      'name': 'Veg Burger',
-      'description':
-          'Veggie Burger in Every Bite: Crunchy Garden-fresh Goodness with our Signature Veg Burger!',
-      'price': 79,
-      'image': 'assets/food3.png',
-      'availibity': true,
-    },
-    {
-      'name': 'Cheese Burger',
-      'description':
-          'Savor the Taste of our Juicy Cheese Burger: Made with 100% Pure Beef and Topped with Melted Cheese!',
-      'price': 99,
-      'image': 'assets/food3.png',
-      'availibity': false,
-    },
-    {
-      'name': 'Chicken Sandwich',
-      'description':
-          'Grilled Chicken Sandwich: Soft Bread, Grilled Chicken Breast, Fresh Lettuce, Tomatoes, and Mayo.',
-      'price': 129,
-      'image': 'assets/food3.png',
-      'availibity': true,
-    },
-  ];
+  List<Map<String, dynamic>> menuItems = [];
 
   @override
   Widget build(BuildContext context) {
