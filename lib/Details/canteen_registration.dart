@@ -105,72 +105,73 @@ class CanteenRegistration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
+      body: ListView(
         children: [
           const SizedBox(height: 50.0),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(80.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Canteen Registration',
-                    style: TextStyle(
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+          Padding(
+            padding: const EdgeInsets.all(80.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Canteen Registration',
+                  style: TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Name',
-                    ),
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
                   ),
-                  const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _canteenNameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Canteen Name',
-                    ),
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _canteenNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Canteen Name',
                   ),
-                  const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Your Previous Email ID',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter Your Previous Email ID',
                   ),
-                  const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _phoneController,
-                    decoration: const InputDecoration(
-                      labelText: 'Phone Number',
-                    ),
-                    keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone Number',
                   ),
-                  const SizedBox(height: 30.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FloatingActionButton.small(
-                        backgroundColor: Colors.black,
-                        onPressed: () {
-                          _registerCanteen(context);
-                        },
-                        shape: const StadiumBorder(),
-                        child: const Icon(
-                          Icons.arrow_right_alt_rounded,
-                          size: 40,
-                          color: Colors.white,
-                        ),
+                  keyboardType: TextInputType.phone,
+                ),
+                const SizedBox(height: 30.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FloatingActionButton.small(
+                      backgroundColor: Colors.black,
+                      onPressed: () {
+                        _registerCanteen(context);
+                      },
+                      shape: const StadiumBorder(),
+                      child: const Icon(
+                        Icons.arrow_right_alt_rounded,
+                        size: 40,
+                        color: Colors.white,
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
