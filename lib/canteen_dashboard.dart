@@ -159,7 +159,7 @@ class _YourDrawerState extends State<YourDrawer> {
             );
           }),
           Container(
-            margin: const EdgeInsets.only(top: 200.0),
+            margin: const EdgeInsets.only(top: 150.0),
             child: Image.asset(
               'assets/logo2.png', // Adjust the path accordingly
               height: 50.0,
