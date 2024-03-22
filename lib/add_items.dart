@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart'; // Import this for TextInputFormatter
-import 'package:lunchx_canteen/menu_manager.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key});
@@ -58,11 +57,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
             onPressed: () {
               Navigator.pop(context); // Close the dialog
               if (saved) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MenuManagerScreen()),
-                );
+                setState(() {
+                  _image = null;
+                  _nameController.clear();
+                  _descriptionController.clear();
+                  _priceController.clear();
+                });
               }
             },
             child: const Text('OK'),

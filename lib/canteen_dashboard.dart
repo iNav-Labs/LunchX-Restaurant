@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, unused_element
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +7,8 @@ import 'package:lunchx_canteen/food_dashboard.dart';
 import 'package:lunchx_canteen/login.dart';
 import 'package:lunchx_canteen/order_history.dart';
 import 'package:lunchx_canteen/menu_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class YourDrawer extends StatefulWidget {
   final Function(bool) onShopStatusChanged;
@@ -23,33 +25,61 @@ class YourDrawer extends StatefulWidget {
 }
 
 class _YourDrawerState extends State<YourDrawer> {
-  Widget _buildDrawerItem(
-      BuildContext context, String title, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 30,
-        padding: const EdgeInsets.symmetric(horizontal: 70.0, vertical: 10.0),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: Colors.black,
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(12.0),
+  late User _currentUser;
+  late Map<String, dynamic> _userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentUser();
+  }
+
+  Future<void> _loadCurrentUser() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        _currentUser = user;
+      });
+      await _loadUserData();
+    }
+  }
+
+  Future<void> _loadUserData() async {
+    final userData = await FirebaseFirestore.instance
+        .collection('LunchX')
+        .doc('canteens')
+        .collection('users')
+        .doc(_currentUser.email)
+        .get();
+    setState(() {
+      _userData = userData.data() as Map<String, dynamic>;
+    });
+  }
+
+  Widget _buildPersonalDetails(String title, String value) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.outfit(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
-          child: Text(
-            title,
-            style: GoogleFonts.outfit(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          textAlign: TextAlign.center,
         ),
-      ),
+        const SizedBox(height: 5),
+        Text(
+          value,
+          style: GoogleFonts.outfit(
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 
@@ -91,9 +121,12 @@ class _YourDrawerState extends State<YourDrawer> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _buildPersonalDetails('Name', 'Mansi Vora'),
-                _buildPersonalDetails('Hostel', 'H.R.H (High Rise)'),
-                _buildPersonalDetails('Phone Number', '+91 9408393005'),
+                _buildPersonalDetails('Name', _userData['name'] ?? 'N/A'),
+                _buildPersonalDetails(
+                    'Canteen Name', _userData['canteenName'] ?? 'N/A'),
+                _buildPersonalDetails('Email ID', _userData['email'] ?? 'N/A'),
+                _buildPersonalDetails(
+                    'Phone Number', _userData['phoneNumber'] ?? 'N/A'),
               ],
             ),
           ),
@@ -102,14 +135,17 @@ class _YourDrawerState extends State<YourDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const MenuManagerScreen()),
+                builder: (context) => const MenuManagerScreen(),
+              ),
             );
           }),
           _buildDrawerItem(context, 'Order History', () {
             Navigator.pop(context);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => OrderHistoryScreen()),
+              MaterialPageRoute(
+                builder: (context) => OrderHistoryScreen(),
+              ),
             );
           }),
           _buildDrawerItem(context, 'Logout', () {
@@ -117,8 +153,8 @@ class _YourDrawerState extends State<YourDrawer> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      const Login()), // Navigate to login screen
+                builder: (context) => const Login(),
+              ), // Navigate to login screen
               (route) => false, // Remove all routes until login screen
             );
           }),
@@ -157,30 +193,33 @@ class _YourDrawerState extends State<YourDrawer> {
     );
   }
 
-  Widget _buildPersonalDetails(String title, String value) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          title,
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+  Widget _buildDrawerItem(
+      BuildContext context, String title, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 30,
+        padding: const EdgeInsets.symmetric(horizontal: 70.0, vertical: 10.0),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: Colors.black,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(12.0),
           ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 5),
-        Text(
-          value,
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
+          child: Text(
+            title,
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 10),
-      ],
+      ),
     );
   }
 }
