@@ -59,6 +59,8 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
     });
   }
 
+  bool isAvailable = true; // Initial availability state
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,11 +77,26 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
-            Text(
-              'Total Items: ${menuItems.length}',
-              style: GoogleFonts.outfit(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+            Center(
+              child: Container(
+                width: 150,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6552FE),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Total Items: ${menuItems.length}',
+                    style: GoogleFonts.outfit(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -93,35 +110,138 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
               },
               child: const Text('Add Items'),
             ),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: menuItems.length,
                 itemBuilder: (context, index) {
                   final menuItem = menuItems[index];
-                  return Card(
-                    child: ListTile(
-                      leading: Image.asset(
-                        menuItem[
-                            'image'], // Assuming 'image' contains the asset path
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
+                  return Container(
+                    margin: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            contentPadding: EdgeInsets
+                                .zero, // Remove default ListTile padding
+                            title: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        menuItem['name'],
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        menuItem['description'],
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.15,
+                                          color: const Color(0xFF858585),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 18),
+                                      Row(children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 0.0, horizontal: 10.0),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 2.0,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Rs. ${menuItem['price']}',
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 12.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              // Toggle the color when tapped
+                                              isAvailable = !isAvailable;
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 2.0, horizontal: 8.0),
+                                            decoration: BoxDecoration(
+                                              color: isAvailable
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            ),
+                                            child: Text(
+                                              isAvailable
+                                                  ? 'Available'
+                                                  : 'Not Available',
+                                              style: GoogleFonts.outfit(
+                                                fontSize: 12.0,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                    width:
+                                        8), // Adjust as needed for spacing between text and image
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.asset(
+                                      menuItem['image'],
+                                      width: 130,
+                                      height: 130,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ManageItemScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ),
-                      title: Text(menuItem['name']),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(menuItem['description']),
-                          Text('Price: Rs. ${menuItem['price']}'),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ManageItemScreen()),
-                        );
-                      },
                     ),
                   );
                 },
