@@ -1,9 +1,6 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'add_items.dart';
-import 'manage_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -114,8 +111,8 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
                 itemCount: menuItems.length,
                 itemBuilder: (context, index) {
                   final menuItem = menuItems[index];
-                  bool isAvailable =
-                      menuItem['availability'] ?? true; // Fetch availability
+                  bool isAvailable = menuItem['availability'] ?? true;
+
                   return Container(
                     margin: const EdgeInsets.all(8.0),
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -127,8 +124,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
-                            contentPadding: EdgeInsets
-                                .zero, // Remove default ListTile padding
+                            contentPadding: EdgeInsets.zero,
                             title: Row(
                               children: [
                                 Expanded(
@@ -234,23 +230,22 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
                                     borderRadius: BorderRadius.circular(15),
                                     child: Image.asset(
                                       menuItem['image'],
-                                      width: 130,
-                                      height: 130,
+                                      width: 110,
+                                      height: 110,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ManageItemScreen(),
-                                ),
-                              );
-                            },
+                            trailing: IconButton(
+                              onPressed: () {
+                                _showDeleteConfirmationDialog(
+                                    context, menuItem['name']);
+                              },
+                              icon: const Icon(Icons.remove_circle,
+                                  color: Colors.red),
+                            ),
                           ),
                         ),
                       ),
@@ -264,5 +259,95 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
       ),
     );
   }
+
+  // Method to show delete confirmation dialog
+  void _showDeleteConfirmationDialog(BuildContext context, String itemName) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Confirm Delete',
+            style: TextStyle(fontSize: 24),
+          ),
+          content: Text(
+            'Are you sure you want to delete $itemName?',
+            style: GoogleFonts.outfit(fontSize: 18),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.outfit(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _deleteItem(itemName);
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              child: Text(
+                'Delete',
+                style: GoogleFonts.outfit(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Method to delete item
+  void _deleteItem(String itemName) async {
+    try {
+      // Delete the item document from Firestore collection
+      await FirebaseFirestore.instance
+          .collection('LunchX')
+          .doc('canteens')
+          .collection('users')
+          .doc(_currentUser.email)
+          .collection('items')
+          .doc(itemName)
+          .delete();
+
+      // Remove the item from the local list
+      setState(() {
+        menuItems.removeWhere((item) => item['name'] == itemName);
+      });
+
+      // Show a SnackBar to indicate successful deletion
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Item $itemName deleted successfully.',
+            style: const TextStyle(fontSize: 18),
+          ),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (error) {
+      // Show a SnackBar to indicate error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Failed to delete item: $error',
+            style: const TextStyle(fontSize: 18),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 }
-// Do not change in the code.
