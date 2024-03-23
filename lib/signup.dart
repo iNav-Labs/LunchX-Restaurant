@@ -144,7 +144,7 @@ class _SignUpState extends State<SignUp> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CanteenRegistration(),
+                    builder: (context) => const CanteenRegistration(),
                   ),
                 );
               },
@@ -176,3 +176,4 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
+// Do Not Change in the code

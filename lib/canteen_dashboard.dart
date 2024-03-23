@@ -27,6 +27,7 @@ class YourDrawer extends StatefulWidget {
 class _YourDrawerState extends State<YourDrawer> {
   late User _currentUser;
   late Map<String, dynamic> _userData = {};
+  late final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -83,6 +84,20 @@ class _YourDrawerState extends State<YourDrawer> {
     );
   }
 
+  Future<void> _updateShopStatus(bool status) async {
+    try {
+      await _firestore
+          .collection('LunchX')
+          .doc('canteens')
+          .collection('users')
+          .doc(_currentUser.email)
+          .update({'shopOpen': status});
+      // ignore: empty_catches
+    } catch (e) {
+      // Handle error
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -99,7 +114,10 @@ class _YourDrawerState extends State<YourDrawer> {
             ),
             value: widget.isShopOpen,
             onChanged: (value) {
-              widget.onShopStatusChanged(value);
+              setState(() {
+                widget.onShopStatusChanged(value);
+                _updateShopStatus(value);
+              });
             },
             contentPadding: const EdgeInsets.all(40),
             activeTrackColor: Colors.green[500],
@@ -303,3 +321,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
+// Do not change in the code
