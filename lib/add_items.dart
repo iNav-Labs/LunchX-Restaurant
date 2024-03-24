@@ -1,5 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +9,8 @@ import 'package:flutter/services.dart'; // Import this for TextInputFormatter
 import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lunchx_canteen/menu_manager.dart'; // Import Firestore
+// ignore: unused_import
+import 'package:firebase_storage/firebase_storage.dart'; // Import Firebase Storage
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key});
@@ -99,11 +103,22 @@ class _AddItemScreenState extends State<AddItemScreen> {
       // Get data from controllers
       String name = _nameController.text;
       String description = _descriptionController.text;
-      double price = double.parse(_priceController.text);
+      double price = double.tryParse(_priceController.text) ?? 0.0;
+
+      // Ensure that an image is selected
+      if (_image == null) {
+        throw 'Please select an image.';
+      }
 
       // Get the path of the selected image asset
-      String imagePath =
-          _image!.path; // Assuming the image is picked from the device
+      String imagePath = _image!.path;
+
+      // Upload image to Firebase Storage
+      Reference storageRef = FirebaseStorage.instance.ref('image_menu/$name');
+      await storageRef.putFile(File(imagePath));
+
+      // Get download URL for the uploaded image
+      String imageUrl = await storageRef.getDownloadURL();
 
       // Reference to the Firestore collection
       CollectionReference itemsCollection = FirebaseFirestore.instance
@@ -116,9 +131,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
       // Create a document with the name as the document ID
       DocumentReference newItemRef = itemsCollection.doc(name);
+
       // Add data to Firestore
       await newItemRef.set({
-        'image': imagePath, // Add the image asset path here
+        'image': imageUrl, // Add the image download URL here
         'name': name,
         'description': description,
         'price': price,

@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api, deprecated_member_use
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lunchx_canteen/canteen_dashboard.dart';
@@ -244,7 +245,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(15),
-                                      child: Image.asset(
+                                      child: Image.network(
                                         menuItem['image'],
                                         width: 110,
                                         height: 110,
@@ -343,6 +344,11 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
       setState(() {
         menuItems.removeWhere((item) => item['name'] == itemName);
       });
+
+      // Delete the image from Firebase Storage
+      Reference storageRef =
+          FirebaseStorage.instance.ref('image_menu/$itemName');
+      await storageRef.delete();
 
       // Show a SnackBar to indicate successful deletion
       ScaffoldMessenger.of(context).showSnackBar(
