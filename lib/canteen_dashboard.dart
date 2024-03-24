@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -254,70 +254,76 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: Image.asset(
-                'assets/logo2.png',
-                width: 110.0,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FoodDashboard()),
-                );
-              },
-              child: Container(
-                height: 30.0,
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: const Color(0xFF6552FE),
-                    width: 2.0,
-                  ),
-                  borderRadius: BorderRadius.circular(12.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+    return WillPopScope(
+      onWillPop: () async {
+        // Returning false prevents the user from using the system's back button
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Image.asset(
+                  'assets/logo2.png',
+                  width: 110.0,
                 ),
-                child: Center(
-                  child: Text(
-                    'SORT BY FOOD',
-                    style: GoogleFonts.outfit(
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FoodDashboard()),
+                  );
+                },
+                child: Container(
+                  height: 30.0,
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
                       color: const Color(0xFF6552FE),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.0,
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'SORT BY FOOD',
+                      style: GoogleFonts.outfit(
+                        color: const Color(0xFF6552FE),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.0,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        endDrawer: YourDrawer(
+          isShopOpen: isShopOpen,
+          onShopStatusChanged: (status) {
+            setState(() {
+              isShopOpen = status;
+            });
+          },
+        ),
+        body: const BodySection(),
       ),
-      endDrawer: YourDrawer(
-        isShopOpen: isShopOpen,
-        onShopStatusChanged: (status) {
-          setState(() {
-            isShopOpen = status;
-          });
-        },
-      ),
-      body: const BodySection(),
     );
   }
 }

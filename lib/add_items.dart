@@ -78,10 +78,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
             onPressed: () {
               Navigator.pop(context); // Close the dialog
               if (saved) {
-                // Navigate back to menu manager page with replacement
+                // Navigate directly to MenuManagerPage
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const MenuManagerScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const MenuManagerScreen()),
                 );
               }
             },
