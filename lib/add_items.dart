@@ -1,7 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
