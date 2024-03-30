@@ -92,7 +92,7 @@ class _CanteenRegistrationState extends State<CanteenRegistration> {
       String imagePath = _image!.path;
       // Upload image to Firebase Storage
       Reference storageRef =
-          FirebaseStorage.instance.ref('image_menu/${_nameController.text}');
+          FirebaseStorage.instance.ref('canteen_image/${_nameController.text}');
       await storageRef.putFile(File(imagePath));
 
       // Get download URL for the uploaded image
