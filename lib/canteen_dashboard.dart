@@ -162,12 +162,13 @@ class _YourDrawerState extends State<YourDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => OrderHistoryScreen(),
+                builder: (context) => const OrderHistoryScreenCanteen(),
               ),
             );
           }),
           _buildDrawerItem(context, 'Logout', () {
             // Perform logout
+            FirebaseAuth.instance.signOut();
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
@@ -277,7 +278,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FoodDashboard()),
+                    MaterialPageRoute(builder: (context) => const FoodDashboard()),
                   );
                 },
                 child: Container(

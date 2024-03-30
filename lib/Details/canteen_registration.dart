@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -89,6 +90,13 @@ class _CanteenRegistrationState extends State<CanteenRegistration> {
   Future<void> _registerCanteen() async {
     try {
       String imagePath = _image!.path;
+      // Upload image to Firebase Storage
+      Reference storageRef =
+          FirebaseStorage.instance.ref('image_menu/${_nameController.text}');
+      await storageRef.putFile(File(imagePath));
+
+      // Get download URL for the uploaded image
+      String imageUrl = await storageRef.getDownloadURL();
 
       await FirebaseFirestore.instance
           .collection('LunchX')
@@ -100,7 +108,7 @@ class _CanteenRegistrationState extends State<CanteenRegistration> {
         'canteenName': _canteenNameController.text,
         'email': _emailController.text,
         'phoneNumber': _phoneController.text,
-        'imagePath': imagePath,
+        'imagePath': imageUrl,
       });
 
       setState(() {

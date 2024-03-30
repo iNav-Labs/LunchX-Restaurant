@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -22,6 +22,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _packagepriceController = TextEditingController();
+  final TextEditingController _preparetimeController = TextEditingController();
   late User _currentUser; // Current user
 
   @override
@@ -96,12 +98,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   // Function to save data to Firestore
+  // Function to save data to Firestore
   void _saveDataToFirestore() async {
     try {
       // Get data from controllers
       String name = _nameController.text;
       String description = _descriptionController.text;
       double price = double.tryParse(_priceController.text) ?? 0.0;
+      double packageprice =
+          double.tryParse(_packagepriceController.text) ?? 0.0;
+      double prep_time = double.tryParse(_preparetimeController.text) ?? 0.0;
 
       // Ensure that an image is selected
       if (_image == null) {
@@ -118,6 +124,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
       // Get download URL for the uploaded image
       String imageUrl = await storageRef.getDownloadURL();
 
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('LunchX') // Your top-level collection name
+          .doc('canteens') // Document ID
+          .collection('users') // Sub-collection
+          .doc(_currentUser
+              .email!) // Document ID (use the current user's email here)
+          .get();
+
+      String canteenName = userSnapshot['canteenName'];
       // Reference to the Firestore collection
       CollectionReference itemsCollection = FirebaseFirestore.instance
           .collection('LunchX') // Your top-level collection name
@@ -136,6 +151,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
         'name': name,
         'description': description,
         'price': price,
+        'packageprice': packageprice, // Add the package price here
+        'canteenName': canteenName, // Include canteen name in the document
+        'timeofPreparation': prep_time, // Add the time of preparation here
+        'availability': true
       });
 
       // Clear input fields
@@ -144,6 +163,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         _nameController.clear();
         _descriptionController.clear();
         _priceController.clear();
+        _packagepriceController.clear();
+        _preparetimeController.clear();
       });
 
       // Show success message
@@ -194,7 +215,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
             const SizedBox(height: 20.0),
             const Text(
-              'Name:',
+              'Item Name',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             TextField(
@@ -206,7 +227,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
             const SizedBox(height: 20.0),
             const Text(
-              'Description:',
+              'Description',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             TextField(
@@ -219,7 +240,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
             const SizedBox(height: 20.0),
             const Text(
-              'Price:',
+              'Item Price',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             TextField(
@@ -230,6 +251,38 @@ class _AddItemScreenState extends State<AddItemScreen> {
               ],
               decoration: const InputDecoration(
                 hintText: 'Enter price',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            const Text(
+              'Packaging Cost:',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              controller: _packagepriceController,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly // Allow only digits
+              ],
+              decoration: const InputDecoration(
+                hintText: 'Enter price',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            const Text(
+              'Preparation Time (minutes)',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              controller: _preparetimeController,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly // Allow only digits
+              ],
+              decoration: const InputDecoration(
+                hintText: 'Enter Time in Minutes',
                 border: OutlineInputBorder(),
               ),
             ),
