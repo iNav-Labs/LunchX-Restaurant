@@ -80,7 +80,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
               Text(
                 _userData['canteenName'] ?? 'High Rise Hostel\n Mess',
                 style: GoogleFonts.outfit(
-                  fontSize: 28,
+                  fontSize: MediaQuery.of(context).size.width * 0.065,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -88,7 +88,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
               const SizedBox(height: 20),
               Center(
                 child: Container(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width * 0.30,
                   height: 30,
                   decoration: BoxDecoration(
                     color: const Color(0xFF6552FE),
@@ -100,7 +100,7 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
                     child: Text(
                       'Total Items: ${menuItems.length}',
                       style: GoogleFonts.outfit(
-                        fontSize: 16,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),
@@ -157,86 +157,127 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
                                         Text(
                                           menuItem['description'],
                                           style: GoogleFonts.outfit(
-                                            fontSize: 14.0,
+                                            fontSize: 12.0,
                                             fontWeight: FontWeight.w400,
                                             height: 1.15,
                                             color: const Color(0xFF858585),
                                           ),
                                         ),
                                         const SizedBox(height: 18),
-                                        Row(children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 0.0,
-                                                horizontal: 10.0),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              border: Border.all(
-                                                color: Colors.black,
-                                                width: 2.0,
-                                              ),
-                                            ),
-                                            child: Text(
-                                              'Rs. ${menuItem['price']}',
-                                              style: GoogleFonts.outfit(
-                                                fontSize: 12.0,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                // Toggle the availability instantly
-                                                menuItem['availability'] =
-                                                    !isAvailable;
-                                              });
-                                              // Update availability status in Firestore
-                                              FirebaseFirestore.instance
-                                                  .collection('LunchX')
-                                                  .doc('canteens')
-                                                  .collection('users')
-                                                  .doc(_currentUser.email)
-                                                  .collection('items')
-                                                  .doc(menuItem['name'])
-                                                  .update({
-                                                'availability': !isAvailable,
-                                              });
-                                            },
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 2.0,
-                                                      horizontal: 8.0),
-                                              decoration: BoxDecoration(
-                                                color: isAvailable
-                                                    ? Colors.green
-                                                    : Colors.red,
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
-                                              ),
-                                              child: Text(
-                                                isAvailable
-                                                    ? 'Available'
-                                                    : 'Not Available',
-                                                style: GoogleFonts.outfit(
-                                                  fontSize: 12.0,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 5,
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.015,
+                                                  horizontal:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.03,
+                                                ),
+                                                decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 2.0,
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'Rs. ${menuItem['price']}',
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width *
+                                                        0.030, // Adjusted font size
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ]),
+                                            SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.02), // Add spacing between widgets
+                                            Expanded(
+                                              flex: 5,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    // Toggle the availability instantly
+                                                    menuItem['availability'] =
+                                                        !isAvailable;
+                                                  });
+                                                  // Update availability status in Firestore
+                                                  FirebaseFirestore.instance
+                                                      .collection('LunchX')
+                                                      .doc('canteens')
+                                                      .collection('users')
+                                                      .doc(_currentUser.email)
+                                                      .collection('items')
+                                                      .doc(menuItem['name'])
+                                                      .update({
+                                                    'availability':
+                                                        !isAvailable,
+                                                  });
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.01,
+                                                    horizontal:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.015,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: isAvailable
+                                                        ? Colors.green
+                                                        : Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0),
+                                                  ),
+                                                  child: Text(
+                                                    isAvailable
+                                                        ? 'Available'
+                                                        : 'Not Available', // Shortened text
+                                                    style: GoogleFonts.outfit(
+                                                      fontSize: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width *
+                                                          0.025, // Slightly bigger font size
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 8,
+                                    width: 5,
                                   ), // Adjust as needed for spacing between text and image
                                   Container(
                                     decoration: BoxDecoration(
@@ -247,8 +288,8 @@ class _MenuManagerScreenState extends State<MenuManagerScreen> {
                                       borderRadius: BorderRadius.circular(15),
                                       child: Image.network(
                                         menuItem['image'],
-                                        width: 110,
-                                        height: 110,
+                                        width: 105,
+                                        height: 105,
                                         fit: BoxFit.cover,
                                       ),
                                     ),

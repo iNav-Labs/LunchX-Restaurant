@@ -132,75 +132,79 @@ class _CanteenRegistrationState extends State<CanteenRegistration> {
         title: const Text('Canteen Registration'),
         automaticallyImplyLeading: false,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          const SizedBox(height: 20.0),
-          const Text(
-            'Upload Canteen Image:',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8.0),
-          GestureDetector(
-            onTap: _pickImage,
-            child: Container(
-              height: 150.0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(8.0),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20.0),
+              const Text(
+                'Upload Canteen Image:',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
-              child: _image == null
-                  ? const Center(
-                      child: Icon(Icons.camera_alt, size: 50.0),
-                    )
-                  : Image.file(_image!, fit: BoxFit.cover),
-            ),
+              const SizedBox(height: 8.0),
+              GestureDetector(
+                onTap: _pickImage,
+                child: Container(
+                  height: 150.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: _image == null
+                      ? const Center(
+                          child: Icon(Icons.camera_alt, size: 50.0),
+                        )
+                      : Image.file(_image!, fit: BoxFit.cover),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              TextField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Name',
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _canteenNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Canteen Name',
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter Your Previous Email ID',
+                ),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _phoneController,
+                decoration: const InputDecoration(
+                  labelText: 'Phone Number',
+                ),
+                keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 30.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (_validateFields()) {
+                    _registerCanteen();
+                  } else {
+                    _showAlertDialog(false);
+                  }
+                },
+                child: const Text('Register'),
+              ),
+            ],
           ),
-          const SizedBox(height: 20.0),
-          TextField(
-            controller: _nameController,
-            decoration: const InputDecoration(
-              labelText: 'Name',
-            ),
-          ),
-          const SizedBox(height: 16.0),
-          TextField(
-            controller: _canteenNameController,
-            decoration: const InputDecoration(
-              labelText: 'Canteen Name',
-            ),
-          ),
-          const SizedBox(height: 16.0),
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(
-              labelText: 'Enter Your Previous Email ID',
-            ),
-            keyboardType: TextInputType.emailAddress,
-          ),
-          const SizedBox(height: 16.0),
-          TextField(
-            controller: _phoneController,
-            decoration: const InputDecoration(
-              labelText: 'Phone Number',
-            ),
-            keyboardType: TextInputType.phone,
-          ),
-          const SizedBox(height: 30.0),
-          ElevatedButton(
-            onPressed: () {
-              if (_validateFields()) {
-                _registerCanteen();
-              } else {
-                _showAlertDialog(false);
-              }
-            },
-            child: const Text('Register'),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
-// Do not change in the code

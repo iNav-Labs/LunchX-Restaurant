@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, unused_local_variable, library_private_types_in_public_api
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,11 +15,26 @@ class AcceptedOrders extends StatefulWidget {
 
 class _AcceptedOrdersState extends State<AcceptedOrders> {
   List<Map<String, dynamic>> orders = [];
+  bool _isRefreshing = false;
 
   @override
   void initState() {
     super.initState();
     fetchOrderDetails();
+  }
+
+  void _refresh() {
+    setState(() {
+      _isRefreshing = true;
+    });
+
+    // Simulating network fetch with a delay
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _isRefreshing = false;
+      });
+      fetchOrderDetails(); // Your fetchOrderDetails function
+    });
   }
 
   Future<void> markOrderAsReady(Map<String, dynamic> order) async {
@@ -213,10 +229,10 @@ class _AcceptedOrdersState extends State<AcceptedOrders> {
               Expanded(
                 child: Center(
                   child: Text(
-                    'Your Orders',
+                    'Orders',
                     style: GoogleFonts.outfit(
                       color: const Color(0xFF919191),
-                      fontSize: 18.0,
+                      fontSize: MediaQuery.of(context).size.width * 0.045,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -224,15 +240,11 @@ class _AcceptedOrdersState extends State<AcceptedOrders> {
               ),
               const SizedBox(width: 50.0),
               GestureDetector(
-                onTap: () {
-                  setState(() {
-                    fetchOrderDetails();
-                    print('Refreshed the page');
-                  });
-                },
-                child: Container(
+                onTap: _refresh,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
                   height: 30.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
@@ -249,31 +261,24 @@ class _AcceptedOrdersState extends State<AcceptedOrders> {
                       ),
                     ],
                   ),
-                  child: const Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.refresh, color: Color(0xFF6552FE)),
-                        SizedBox(width: 5.0),
-                      ],
-                    ),
-                  ),
+                  child: _isRefreshing
+                      ? const Center(
+                          child: CupertinoActivityIndicator(
+                            radius:
+                                10, // Adjust the size as per your preference
+                          ),
+                        )
+                      : const Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.refresh, color: Color(0xFF6552FE)),
+                            ],
+                          ),
+                        ),
                 ),
               ),
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(8.0),
-                    bottomRight: Radius.circular(8.0),
-                  ),
-                ),
-                padding: const EdgeInsets.all(6.0),
-                child: const Icon(
-                  Icons.arrow_downward,
-                  color: Colors.black,
-                ),
-              ),
+              const SizedBox(width: 30.0),
             ],
           ),
 //.

@@ -35,15 +35,14 @@ dependencies:
   firebase_auth: ^4.17.9
   firebase_core: ^2.27.1
   cloud_firestore: ^4.15.9
-
+  image_picker_web: ^3.1.1
+  file_picker: ^8.0.0+1
+  image_picker: ^1.0.7
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
-  image_picker: ^1.0.7
   firebase_storage: ^11.6.10
   path: ^1.9.0
-  file_picker: ^8.0.0+1
-  image_picker_web: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +72,8 @@ flutter:
     - assets/food1.png
     - assets/food2.png
     - assets/food3.png
+    - assets/bowl.jpeg
+    - assets/bowl2.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

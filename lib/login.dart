@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, unused_local_variable
+// ignore_for_file: unused_local_variable, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,89 +21,94 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(height: 50.0),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(80.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(80.0, 50.0, 80.0, 98.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Login',
+                  style: TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Your Registered Email ID',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter Your Registered Email ID',
                   ),
-                  const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Your Password',
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          // Toggle password visibility
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                        child: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Your Password',
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                       ),
                     ),
-                    obscureText: _obscurePassword,
                   ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // Navigate to sign up page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignUp(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'New User? Sign Up',
-                          style: TextStyle(color: Colors.grey),
-                        ),
+                  obscureText: _obscurePassword,
+                ),
+                const SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUp(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'New User? Sign Up',
+                        style: TextStyle(color: Colors.grey),
                       ),
-                      FloatingActionButton.small(
-                        backgroundColor: Colors.black,
-                        onPressed: () {
-                          _loginUser(context);
-                        },
-                        shape: const StadiumBorder(),
-                        child: const Icon(
-                          Icons.arrow_right_alt_rounded,
-                          size: 40,
-                          color: Colors.white,
-                        ),
+                    ),
+                    FloatingActionButton.small(
+                      backgroundColor: Colors.black,
+                      onPressed: () {
+                        _loginUser(context);
+                      },
+                      shape: const StadiumBorder(),
+                      child: const Icon(
+                        Icons.arrow_right_alt_rounded,
+                        size: 40,
+                        color: Colors.white,
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16.0),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Image.asset(
+                    'assets/bowl2.jpeg',
+                    fit: BoxFit.cover,
+                    height: 200.0,
+                    width: double.infinity,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -145,4 +150,3 @@ class _LoginState extends State<Login> {
     );
   }
 }
-// Do Not Change in the code

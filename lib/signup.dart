@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, unused_local_variable, use_build_context_synchronously
+// ignore_for_file: unused_local_variable, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,88 +21,94 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(height: 50.0),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(80.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(80.0, 50.0, 80.0, 98.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Your Email ID Here ...',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter Your Email ID Here ...',
                   ),
-                  const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Set Your Password Here ...',
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                        child: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16.0),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Set Your Password Here ...',
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                       ),
                     ),
-                    obscureText: _obscurePassword,
                   ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Login(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Already User? Login',
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
+                  obscureText: _obscurePassword,
+                ),
+                const SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Login(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Already User? Login',
+                        style: TextStyle(color: Colors.grey[600]),
                       ),
-                      FloatingActionButton.small(
-                        backgroundColor: Colors.black,
-                        onPressed: () {
-                          _registerWithEmailAndPassword(context);
-                        },
-                        shape: const StadiumBorder(),
-                        child: const Icon(
-                          Icons.arrow_right_alt_rounded,
-                          size: 40,
-                          color: Colors.white,
-                        ),
+                    ),
+                    FloatingActionButton.small(
+                      backgroundColor: Colors.black,
+                      onPressed: () {
+                        _registerWithEmailAndPassword(context);
+                      },
+                      shape: const StadiumBorder(),
+                      child: const Icon(
+                        Icons.arrow_right_alt_rounded,
+                        size: 40,
+                        color: Colors.white,
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16.0),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Image.asset(
+                    'assets/bowl.jpeg',
+                    fit: BoxFit.cover,
+                    height: 200.0,
+                    width: double.infinity,
                   ),
-                  const SizedBox(height: 16.0),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
