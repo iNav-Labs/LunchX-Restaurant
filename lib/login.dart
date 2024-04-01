@@ -103,16 +103,6 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Image.asset(
-                'assets/food2.png',
-                fit: BoxFit.cover,
-                width: double.infinity,
-              ),
-            ),
-          ),
         ],
       ),
     );

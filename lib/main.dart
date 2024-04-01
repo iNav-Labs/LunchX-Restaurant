@@ -6,7 +6,14 @@ import 'package:lunchx_canteen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+    apiKey: "AIzaSyBnMab_6AM-IxVVwabLK_DHZZPdFL55WJU",
+    projectId: "lunchx-8a27e",
+    storageBucket: "lunchx-8a27e.appspot.com",
+    messagingSenderId: "751125177646",
+    appId: "1:751125177646:web:bc1ff3ef2a368f1241c6bf",
+  ));
   runApp(const MyApp());
 }
 
